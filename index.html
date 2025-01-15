@@ -59,7 +59,6 @@
                 <option value="PM">PM</option>
             </select>
         </div>
-
         <label for="startB">Agent B Start Time:</label>
         <div class="time-group">
             <input type="text" id="startB" placeholder="HH:MM" pattern="\\d{1,2}:\\d{2}" title="Enter time in HH:MM format">
@@ -68,7 +67,6 @@
                 <option value="PM">PM</option>
             </select>
         </div>
-
         <label for="earlyLeave">Early Leave Duration (Hours:Minutes):</label>
         <input type="text" id="earlyLeave" placeholder="e.g., 2:30" pattern="\\d{1,2}:\\d{2}" title="Enter time in HH:MM format">
 
@@ -76,7 +74,6 @@
 
         <div class="result" id="result"></div>
     </div>
-
     <script>
         function calculate() {
             const startA = document.getElementById('startA').value;
@@ -84,7 +81,6 @@
             const startB = document.getElementById('startB').value;
             const meridianB = document.getElementById('meridianB').value;
             const earlyLeave = document.getElementById('earlyLeave').value;
-
             const workHours = 8; // Standard working hours
             const [earlyHours, earlyMinutes] = earlyLeave.split(':').map(Number);
 
@@ -92,30 +88,21 @@
                 const [hoursString, minutesString] = startTime.split(':');
                 let hours = parseInt(hoursString, 10);
                 let minutes = parseInt(minutesString, 10);
-
-                // Convert to 24-hour format
                 if (meridian === 'PM' && hours !== 12) hours += 12;
                 if (meridian === 'AM' && hours === 12) hours = 0;
-
-                // Add working hours
                 hours += workHours;
-
-                // Subtract early leave duration
                 minutes -= earlyMinutes;
                 if (minutes < 0) {
                     minutes += 60;
                     hours -= 1;
                 }
                 hours -= earlyHours;
-
-                // Convert back to 12-hour format
                 const finalMeridian = hours >= 12 ? 'PM' : 'AM';
                 if (hours > 12) hours -= 12;
                 if (hours === 0) hours = 12;
 
                 return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${finalMeridian}`;
             }
-
             const leaveA = calculateLeaveTime(startA, meridianA);
             const leaveB = calculateLeaveTime(startB, meridianB);
 
